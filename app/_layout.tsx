@@ -1,6 +1,7 @@
+// app/_layout.js
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack } from 'expo-router'; // Asegúrate de importar Stack
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
@@ -13,7 +14,6 @@ export default function RootLayout() {
   });
 
   if (!loaded) {
-    // Async font loading only occurs in development.
     return null;
   }
 
@@ -21,6 +21,7 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="favrecipes" options={{ headerShown: false }} /> 
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
