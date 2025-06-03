@@ -1,4 +1,3 @@
-// app/_layout.js (o .tsx)
 import { Stack } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'react-native';
@@ -18,7 +17,6 @@ const ThemedStatusBar = () => {
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      {/* ThemedStatusBar debe estar DENTRO de ThemeProvider para usar useTheme */}
       <ThemedStatusBar />
       <Stack/>
     </ThemeProvider>

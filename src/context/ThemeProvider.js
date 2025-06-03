@@ -7,8 +7,8 @@ import { ThemeContext } from './ThemeContext';
 const THEME_STORAGE_KEY = '@MyApp:themePreference';
 
 export const ThemeProvider = ({ children }) => {
-  const systemColorScheme = Appearance.getColorScheme();
-  const [themeName, setThemeName] = useState(systemColorScheme || 'light');
+  const initialSystemColorScheme = Appearance.getColorScheme();
+  const [themeName, setThemeName] = useState(initialSystemColorScheme || 'light');
 
   useEffect(() => {
     const loadThemePreference = async () => {
@@ -16,27 +16,40 @@ export const ThemeProvider = ({ children }) => {
         const storedThemeName = await AsyncStorage.getItem(THEME_STORAGE_KEY);
         if (storedThemeName && themes[storedThemeName]) {
           setThemeName(storedThemeName);
-        } else if (systemColorScheme && themes[systemColorScheme]) {
-          setThemeName(systemColorScheme);
+        } else if (initialSystemColorScheme && themes[initialSystemColorScheme]) {
+          setThemeName(initialSystemColorScheme);
         } else {
           setThemeName('light'); 
         }
       } catch (error) {
         console.error('Failed to load theme preference:', error);
-        setThemeName(systemColorScheme || 'light');
+        setThemeName(initialSystemColorScheme || 'light');
       }
     };
     loadThemePreference();
-  }, [systemColorScheme]);
+  }, [initialSystemColorScheme]);
 
   useEffect(() => {
-    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+    const handleSystemThemeChange = async ({ colorScheme }) => {
       if (colorScheme && themes[colorScheme]) {
         console.log('System theme changed to:', colorScheme);
+        try {
+          const storedThemeName = await AsyncStorage.getItem(THEME_STORAGE_KEY);
+          if (!storedThemeName) {
+            setThemeName(colorScheme); 
+          }
+        } catch (error) {
+          console.error('Failed to process system theme change:', error);
+        }
       }
-    });
-    return () => subscription.remove();
-  }, []);
+    };
+
+    const subscription = Appearance.addChangeListener(handleSystemThemeChange);
+
+    return () => {
+      subscription.remove();
+    };
+  }, [setThemeName]);
 
   const toggleTheme = useCallback(async (newThemeName) => {
     if (themes[newThemeName]) {
