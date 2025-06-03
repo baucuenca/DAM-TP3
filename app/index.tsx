@@ -1,8 +1,19 @@
+import { useRouter } from "expo-router";
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import FavNavButton from "../src/components/FavNavButton";
-import RecipeCard from "../src/components/RecipeCard";
-import SearchBar from "../src/components/SearchBar";
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import RecipeCard from "../src/components/Home/RecipeCard";
+import SearchBar from "../src/components/Home/SearchBar";
+import Menu from "../src/components/Menu/Menu";
+import MenuOption from "../src/components/Menu/MenuOption";
+import { auth } from "../src/constants/firebaseConfig";
 import { useTheme } from "../src/hooks/useTheme";
 
 type Meal = {
@@ -18,6 +29,8 @@ function Home() {
   const [query, setQuery] = useState("");
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const user = auth.currentUser;
 
   const fetchRecipes = async (search: string) => {
     setLoading(true);
@@ -38,9 +51,13 @@ function Home() {
   }, []);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.background }]}
+    >
       <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.textPrimary }]}>Buscar Recetas</Text>
+        <Text style={[styles.title, { color: theme.textPrimary }]}>
+          Buscar Recetas
+        </Text>
       </View>
       <SearchBar
         value={query}
@@ -65,14 +82,44 @@ function Home() {
             />
           )}
           ListEmptyComponent={
-            <Text style={{ color: theme.textSecondary, textAlign: "center", marginTop: 20 }}>
+            <Text
+              style={{
+                color: theme.textSecondary,
+                textAlign: "center",
+                marginTop: 20,
+              }}
+            >
               No se encontraron recetas para "{query}".
             </Text>
           }
         />
       )}
-      <FavNavButton to="/FavIngredients" label="Ingredientes" order={1} />
-      <FavNavButton to="/FavRecipes" label="Recetas" order={0} />
+      <Menu>
+        <MenuOption
+          label="Recetas favoritas"
+          icon="star"
+          onPress={() => router.push("/FavRecipes")}
+        />
+        <MenuOption
+          label="Ingredientes favoritos"
+          icon="kitchen"
+          onPress={() => router.push("/FavIngredients")}
+        />
+        {!user && (
+          <MenuOption
+            label="Iniciar sesion"
+            icon="login"
+            onPress={() => router.push("/Login")}
+          />
+        )}
+        {user && (
+          <MenuOption
+            label="Cerrar sesión"
+            icon="logout"
+            onPress={async () => await signOut(auth)}
+          />
+        )}
+      </Menu>
     </SafeAreaView>
   );
 }

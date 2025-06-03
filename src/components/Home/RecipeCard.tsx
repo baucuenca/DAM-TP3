@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   name: string;
@@ -12,7 +12,12 @@ type Props = {
 const RecipeCard = ({ name, category, area, image }: Props) => {
   const { theme } = useTheme();
   return (
-    <View style={[styles.card, { backgroundColor: theme.surface, shadowColor: theme.shadowColor }]}>
+    <View
+      style={[
+        styles.card,
+        { backgroundColor: theme.surface, shadowColor: theme.shadowColor },
+      ]}
+    >
       <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.info}>
         <Text style={[styles.name, { color: theme.textPrimary }]}>{name}</Text>

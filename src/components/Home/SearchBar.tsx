@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
   value: string;
@@ -13,7 +13,10 @@ const SearchBar = ({ value, onChange, placeholder }: Props) => {
   return (
     <View style={[styles.container, { backgroundColor: theme.surface }]}>
       <TextInput
-        style={[styles.input, { color: theme.text, backgroundColor: theme.surface }]}
+        style={[
+          styles.input,
+          { color: theme.text, backgroundColor: theme.surface },
+        ]}
         value={value}
         onChangeText={onChange}
         placeholder={placeholder}

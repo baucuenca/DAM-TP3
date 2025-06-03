@@ -1,10 +1,17 @@
-import RecipesList from '@/src/components/favRecipes/RecipesList';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { useRouter } from 'expo-router';
-import React, { useContext } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ThemeContext } from '../src/context/ThemeContext';
-import { useProtectedRoute } from '../src/hooks/useProtectedRoute';
+import RecipesList from "@/src/components/FavRecipes/RecipesList";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useRouter } from "expo-router";
+import React, { useContext } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { ThemeContext } from "../src/context/ThemeContext";
+import { useProtectedRoute } from "../src/hooks/useProtectedRoute";
 
 const FavRecipes = () => {
   useProtectedRoute();
@@ -21,8 +28,8 @@ const FavRecipes = () => {
       backgroundColor: currentTheme.background,
     },
     header: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       paddingHorizontal: 16,
       paddingTop: 50,
       paddingBottom: 16,
@@ -33,21 +40,21 @@ const FavRecipes = () => {
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
-      elevation: 3, 
+      elevation: 3,
     },
     backButton: {
       padding: 8,
     },
-    backButtonText: { 
+    backButtonText: {
       fontSize: 24,
-      color: currentTheme.iconColor, 
+      color: currentTheme.iconColor,
     },
     headerTitle: {
       flex: 1,
       fontSize: 22,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: currentTheme.textPrimary, 
+      fontWeight: "bold",
+      textAlign: "center",
+      color: currentTheme.textPrimary,
       marginRight: 40,
     },
     contentArea: {
@@ -56,18 +63,18 @@ const FavRecipes = () => {
     },
     sectionTitle: {
       fontSize: 20,
-      fontWeight: 'bold',
-      color: currentTheme.textPrimary, 
+      fontWeight: "bold",
+      color: currentTheme.textPrimary,
       marginBottom: 16,
     },
     recipeCard: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: currentTheme.surface, 
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: currentTheme.surface,
       borderRadius: 10,
       padding: 12,
       marginBottom: 12,
-      shadowColor: currentTheme.shadowColor, 
+      shadowColor: currentTheme.shadowColor,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
@@ -84,8 +91,8 @@ const FavRecipes = () => {
     },
     recipeName: {
       fontSize: 18,
-      fontWeight: 'bold',
-      color: currentTheme.textPrimary, 
+      fontWeight: "bold",
+      color: currentTheme.textPrimary,
       marginBottom: 4,
     },
     recipeIngredients: {
@@ -95,37 +102,37 @@ const FavRecipes = () => {
     favoriteIcon: {
       padding: 8,
     },
-    heartIcon: { 
+    heartIcon: {
       fontSize: 24,
-      color: currentTheme.primary, 
+      color: currentTheme.primary,
     },
     buttonPrimary: {
       backgroundColor: currentTheme.buttonPrimary,
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 8,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       marginTop: 20,
       shadowColor: currentTheme.shadowColor,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.2,
       shadowRadius: 4,
-      elevation: 5, 
-      marginBottom: 20, 
+      elevation: 5,
+      marginBottom: 20,
     },
     buttonPrimaryText: {
       color: currentTheme.buttonPrimaryText,
       fontSize: 18,
-      fontWeight: 'bold',
+      fontWeight: "bold",
     },
     buttonSecondary: {
       backgroundColor: currentTheme.buttonSecondary,
       paddingVertical: 12,
       paddingHorizontal: 20,
       borderRadius: 8,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
       marginTop: 10,
       borderWidth: 1,
       borderColor: currentTheme.border,
@@ -133,23 +140,26 @@ const FavRecipes = () => {
     buttonSecondaryText: {
       color: currentTheme.buttonSecondaryText,
       fontSize: 18,
-      fontWeight: 'bold',
+      fontWeight: "bold",
     },
   });
-
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color={currentTheme.iconColor} />
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={currentTheme.iconColor}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mis favoritas</Text>
       </View>
 
       <ScrollView style={styles.contentArea}>
         <Text style={styles.sectionTitle}>Recetas</Text>
-        <RecipesList/>
+        <RecipesList />
       </ScrollView>
     </SafeAreaView>
   );
