@@ -1,4 +1,4 @@
-import RecipesList from '@/src/components/favRecipes/recipesList';
+import RecipesList from '@/src/components/favRecipes/RecipesList';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import React, { useContext } from 'react';
