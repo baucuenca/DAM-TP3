@@ -18,7 +18,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <ThemedStatusBar />
-      <Stack/>
+      <Stack screenOptions={{headerShown: false}}/>
     </ThemeProvider>
   );
 }
