@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { auth } from '../constants/firebaseConfig';
 import { ThemeContext } from '../src/context/ThemeContext';
+import { useAuthRedirect } from '../src/hooks/useAuthRedirect';
 
 function translateFirebaseError(errorCode: string): string {
   switch (errorCode) {
@@ -26,6 +27,7 @@ function translateFirebaseError(errorCode: string): string {
 
 
 export default function Signup() {
+  useAuthRedirect();
   const { theme: currentTheme } = useContext(ThemeContext);
   const router = useRouter();
   const [email, setEmail] = useState('');
