@@ -4,8 +4,10 @@ import React, { useContext } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { ThemeContext } from '../src/context/ThemeContext';
+import { useProtectedRoute } from '../src/hooks/useProtectedRoute';
 
 const FavRecipes = () => {
+   useProtectedRoute();
   const router = useRouter();
   const handleGoBack = () => {
     router.back();
