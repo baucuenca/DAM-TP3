@@ -1,17 +1,24 @@
 import { useRouter } from 'expo-router';
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut, User } from 'firebase/auth'; 
+import { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { auth } from '../constants/firebaseConfig';
-import { useProtectedRoute } from '../src/hooks/useProtectedRoute';
 
 export default function Index() {
-   useProtectedRoute();
+  const [user, setUser] = useState<User | null>(null); 
   const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.replace('/Login');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
@@ -30,17 +37,21 @@ export default function Index() {
         Edit app/index.tsx to edit this screen.
       </Text>
 
-      <TouchableOpacity
-        onPress={handleLogout}
-        style={{
-          backgroundColor: '#ff4d4d',
-          paddingVertical: 12,
-          paddingHorizontal: 24,
-          borderRadius: 8,
-        }}
-      >
-        <Text style={{ color: 'white', fontWeight: 'bold' }}>Cerrar sesión</Text>
-      </TouchableOpacity>
+      {user && (
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{
+            backgroundColor: '#ff4d4d',
+            paddingVertical: 12,
+            paddingHorizontal: 24,
+            borderRadius: 8,
+          }}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>
+            Cerrar sesión
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
