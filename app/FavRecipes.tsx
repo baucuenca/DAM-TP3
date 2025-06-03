@@ -1,32 +1,166 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import { ThemeContext } from '../src/context/ThemeContext';
 
 const FavRecipes = () => {
-  const router = useRouter(); 
+  const router = useRouter();
   const handleGoBack = () => {
     router.back();
   };
 
-  const handleViewAllRecipes = () => {
-    router.push('/Home'); 
-  };
+  const { theme: currentTheme } = useContext(ThemeContext);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: currentTheme.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingTop: 50,
+      paddingBottom: 16,
+      backgroundColor: currentTheme.surface,
+      borderBottomWidth: 1,
+      borderBottomColor: currentTheme.border,
+      shadowColor: currentTheme.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3, 
+    },
+    backButton: {
+      padding: 8,
+    },
+    backButtonText: { 
+      fontSize: 24,
+      color: currentTheme.iconColor, 
+    },
+    headerTitle: {
+      flex: 1,
+      fontSize: 22,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: currentTheme.textPrimary, 
+      marginRight: 40,
+    },
+    contentArea: {
+      flex: 1,
+      padding: 16,
+    },
+    sectionTitle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: currentTheme.textPrimary, 
+      marginBottom: 16,
+    },
+    recipeCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: currentTheme.surface, 
+      borderRadius: 10,
+      padding: 12,
+      marginBottom: 12,
+      shadowColor: currentTheme.shadowColor, 
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    recipeImage: {
+      width: 80,
+      height: 80,
+      borderRadius: 8,
+      marginRight: 12,
+    },
+    recipeDetails: {
+      flex: 1,
+    },
+    recipeName: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: currentTheme.textPrimary, 
+      marginBottom: 4,
+    },
+    recipeIngredients: {
+      fontSize: 14,
+      color: currentTheme.textSecondary,
+    },
+    favoriteIcon: {
+      padding: 8,
+    },
+    heartIcon: { 
+      fontSize: 24,
+      color: currentTheme.primary, 
+    },
+    buttonPrimary: {
+      backgroundColor: currentTheme.buttonPrimary,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 20,
+      shadowColor: currentTheme.shadowColor,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5, 
+      marginBottom: 20, 
+    },
+    buttonPrimaryText: {
+      color: currentTheme.buttonPrimaryText,
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    buttonSecondary: {
+      backgroundColor: currentTheme.buttonSecondary,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      borderRadius: 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: 10,
+      borderWidth: 1,
+      borderColor: currentTheme.border,
+    },
+    buttonSecondaryText: {
+      color: currentTheme.buttonSecondaryText,
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+  });
 
   const favoriteRecipes = [
     {
       id: '1',
       name: 'Fideos con Queso',
-      ingredients: 'Ingredientes: ...', 
-      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Receta',
+      ingredients: 'Ingredientes: Pasta, Queso Cheddar, Leche, Mantequilla, Sal, Pimienta.',
+      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Fideos',
+    },
+    {
+      id: '2',
+      name: 'Ensalada César',
+      ingredients: 'Ingredientes: Lechuga Romana, Pollo, Crutones, Queso Parmesano, Aderezo César.',
+      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Ensalada',
+    },
+    {
+      id: '3',
+      name: 'Sopa de Tomate',
+      ingredients: 'Ingredientes: Tomates, Caldo de pollo, Cebolla, Ajo, Albahaca, Crema.',
+      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Sopa',
     },
   ];
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
+          <Ionicons name="arrow-back" size={24} color={currentTheme.iconColor} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Mis favoritas</Text>
       </View>
@@ -42,111 +176,17 @@ const FavRecipes = () => {
               <Text style={styles.recipeIngredients}>{recipe.ingredients}</Text>
             </View>
             <TouchableOpacity style={styles.favoriteIcon}>
-               <Ionicons name="heart" size={24} />
+              {/* Aplicamos el color primario al icono de corazón */}
+              <Ionicons name="heart" size={24} color={currentTheme.primary} />
             </TouchableOpacity>
           </View>
         ))}
 
-        <TouchableOpacity style={styles.viewAllButton} onPress={handleViewAllRecipes}>
-          <Text style={styles.viewAllButtonText}>Ver Todas Las Recetas</Text>
-        </TouchableOpacity>
+        {/* El botón para alternar el tema ha sido eliminado, ya que el tema se gestiona automáticamente */}
+
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 50, 
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
-  backButton: {
-    padding: 8,
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: '#333333',
-  },
-  headerTitle: {
-    flex: 1,
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#333333',
-    marginRight: 40,
-  },
-  contentArea: {
-    flex: 1,
-    padding: 16,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 16,
-  },
-  recipeCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  recipeImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    marginRight: 12,
-  },
-  recipeDetails: {
-    flex: 1,
-  },
-  recipeName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 4,
-  },
-  recipeIngredients: {
-    fontSize: 14,
-    color: '#666666',
-  },
-  favoriteIcon: {
-    padding: 8,
-  },
-  heartIcon: {
-    fontSize: 24,
-    color: '#FF6347', 
-  },
-  viewAllButton: {
-    backgroundColor: '#FF6347',
-    borderRadius: 10,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  viewAllButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-});
 
 export default FavRecipes;

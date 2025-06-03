@@ -1,30 +1,26 @@
-// app/_layout.js
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router'; // Asegúrate de importar Stack
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+// app/_layout.js (o .tsx)
+import { Stack } from 'expo-router';
+import React from 'react';
+import { StatusBar } from 'react-native';
+import { ThemeProvider } from '../src/context/ThemeProvider';
+import { useTheme } from '../src/hooks/useTheme';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+const ThemedStatusBar = () => {
+  const { theme, themeName } = useTheme();
+  return (
+    <StatusBar
+      barStyle={themeName === 'light' ? 'light-content' : 'dark-content'}
+      backgroundColor={theme.surface} 
+    />
+  );
+};
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="favrecipes" options={{ headerShown: false }} /> 
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+    <ThemeProvider>
+      {/* ThemedStatusBar debe estar DENTRO de ThemeProvider para usar useTheme */}
+      <ThemedStatusBar />
+      <Stack/>
     </ThemeProvider>
   );
 }
