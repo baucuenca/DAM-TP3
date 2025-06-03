@@ -1,3 +1,4 @@
+# TP3
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 1. Instalar dependencias
@@ -12,10 +13,10 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
-Estructura de Temas y Estilos
+## Estructura de Temas y Estilos
 La aplicación se adapta automáticamente a los temas claro y oscuro del sistema operativo.
 
-Estructura de Archivos de Temas
+## Estructura de Archivos de Temas
 Los colores y las definiciones de los temas se encuentran en:
 
 src/themes/ColorThemes.js
@@ -30,7 +31,7 @@ src/context/ThemeProvider.js: Este componente detecta el tema del dispositivo (A
 
 Los estilos para cada pantalla se definen directamente dentro del archivo de cada componente de pantalla, utilizando StyleSheet.create de React Native.
 
-Ejemplo en FavRecipes.js:
+### Ejemplo en FavRecipes.js:
 
 // FavRecipes.js
 import React, { useContext } from 'react';
