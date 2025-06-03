@@ -2,8 +2,10 @@ import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { auth } from '../constants/firebaseConfig';
+import { useProtectedRoute } from '../src/hooks/useProtectedRoute';
 
 export default function Index() {
+   useProtectedRoute();
   const router = useRouter();
 
   const handleLogout = async () => {
