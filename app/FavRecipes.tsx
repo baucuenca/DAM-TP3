@@ -1,13 +1,13 @@
+import RecipesList from '@/src/components/favRecipes/recipesList';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import React, { useContext } from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ThemeContext } from '../src/context/ThemeContext';
 import { useProtectedRoute } from '../src/hooks/useProtectedRoute';
 
 const FavRecipes = () => {
-   useProtectedRoute();
+  useProtectedRoute();
   const router = useRouter();
   const handleGoBack = () => {
     router.back();
@@ -137,26 +137,6 @@ const FavRecipes = () => {
     },
   });
 
-  const favoriteRecipes = [
-    {
-      id: '1',
-      name: 'Fideos con Queso',
-      ingredients: 'Ingredientes: Pasta, Queso Cheddar, Leche, Mantequilla, Sal, Pimienta.',
-      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Fideos',
-    },
-    {
-      id: '2',
-      name: 'Ensalada César',
-      ingredients: 'Ingredientes: Lechuga Romana, Pollo, Crutones, Queso Parmesano, Aderezo César.',
-      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Ensalada',
-    },
-    {
-      id: '3',
-      name: 'Sopa de Tomate',
-      ingredients: 'Ingredientes: Tomates, Caldo de pollo, Cebolla, Ajo, Albahaca, Crema.',
-      image: 'https://placehold.co/100x100/E0E0E0/FFFFFF?text=Sopa',
-    },
-  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -169,23 +149,7 @@ const FavRecipes = () => {
 
       <ScrollView style={styles.contentArea}>
         <Text style={styles.sectionTitle}>Recetas</Text>
-
-        {favoriteRecipes.map((recipe) => (
-          <View key={recipe.id} style={styles.recipeCard}>
-            <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-            <View style={styles.recipeDetails}>
-              <Text style={styles.recipeName}>{recipe.name}</Text>
-              <Text style={styles.recipeIngredients}>{recipe.ingredients}</Text>
-            </View>
-            <TouchableOpacity style={styles.favoriteIcon}>
-              {/* Aplicamos el color primario al icono de corazón */}
-              <Ionicons name="heart" size={24} color={currentTheme.primary} />
-            </TouchableOpacity>
-          </View>
-        ))}
-
-        {/* El botón para alternar el tema ha sido eliminado, ya que el tema se gestiona automáticamente */}
-
+        <RecipesList/>
       </ScrollView>
     </SafeAreaView>
   );
