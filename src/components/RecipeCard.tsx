@@ -1,7 +1,10 @@
+import { useIsAuthenticated } from "@/src/hooks/useIsAuthenticated";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useTheme } from "../../hooks/useTheme";
+import { auth } from "../constants/firebaseConfig";
+import { useTheme } from "../hooks/useTheme";
+import { esFavorito, toggleFavorito } from "../services/favoritosStorage";
 
 type Props = {
   id: string;
@@ -13,9 +16,28 @@ type Props = {
 
 const RecipeCard = ({ id, name, category, area, image }: Props) => {
   const { theme } = useTheme();
+  const isAuthenticated = useIsAuthenticated()
+  const user = auth.currentUser?.uid;
+  const [esActualmenteFavorito,setEsActualmenteFavorito]=useState(false)
+
+  useEffect(() => {
+  const verificarFavorito = async () => {
+    const esFav = await esFavorito(user, id);
+    setEsActualmenteFavorito(esFav);
+  };
+
+  if (user) {
+    verificarFavorito();
+  }
+}, [user, id]);
 
   const onClickFavorito = (idMeal: Props["id"])=>{
-    console.log(idMeal)
+    if (isAuthenticated){
+      toggleFavorito(user,idMeal);
+      setEsActualmenteFavorito(!esActualmenteFavorito)
+    } else{
+      console.log("Debes estar autenticado/a para utilizar esa función.")
+    }
   }
 
   return (
@@ -34,7 +56,7 @@ const RecipeCard = ({ id, name, category, area, image }: Props) => {
           </Text>
         </View>
         <Ionicons
-            name="heart-outline"
+            name={ esActualmenteFavorito ? "heart" : "heart-outline"}
             size={24}
             color={theme.iconColor}
             onPress={()=> onClickFavorito(id)}
