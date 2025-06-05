@@ -1,16 +1,23 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { useTheme } from "../../hooks/useTheme";
 
 type Props = {
+  id: string;
   name: string;
   category: string;
   area: string;
   image: string;
 };
 
-const RecipeCard = ({ name, category, area, image }: Props) => {
+const RecipeCard = ({ id, name, category, area, image }: Props) => {
   const { theme } = useTheme();
+
+  const onClickFavorito = (idMeal: Props["id"])=>{
+    console.log(idMeal)
+  }
+
   return (
     <View
       style={[
@@ -20,10 +27,18 @@ const RecipeCard = ({ name, category, area, image }: Props) => {
     >
       <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.info}>
-        <Text style={[styles.name, { color: theme.textPrimary }]}>{name}</Text>
-        <Text style={[styles.meta, { color: theme.textSecondary }]}>
-          {category} · {area}
-        </Text>
+        <View>
+          <Text style={[styles.name, { color: theme.textPrimary }]}>{name}</Text>
+          <Text style={[styles.meta, { color: theme.textSecondary }]}>
+            {category} · {area}
+          </Text>
+        </View>
+        <Ionicons
+            name="heart-outline"
+            size={24}
+            color={theme.iconColor}
+            onPress={()=> onClickFavorito(id)}
+        />
       </View>
     </View>
   );
@@ -51,6 +66,9 @@ const styles = StyleSheet.create({
   },
   info: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   name: {
     fontSize: 18,

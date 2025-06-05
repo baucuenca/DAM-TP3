@@ -75,6 +75,7 @@ function Home() {
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
             <RecipeCard
+              id={item.idMeal}
               name={item.strMeal}
               category={item.strCategory}
               area={item.strArea}
