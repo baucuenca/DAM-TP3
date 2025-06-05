@@ -9,10 +9,10 @@ import {
   Text,
   View,
 } from "react-native";
-import RecipeCard from "../src/components/Home/RecipeCard";
 import SearchBar from "../src/components/Home/SearchBar";
 import Menu from "../src/components/Menu/Menu";
 import MenuOption from "../src/components/Menu/MenuOption";
+import RecipeCard from "../src/components/RecipeCard";
 import { auth } from "../src/constants/firebaseConfig";
 import { useTheme } from "../src/hooks/useTheme";
 
@@ -32,6 +32,8 @@ function Home() {
   const router = useRouter();
   const user = auth.currentUser;
 
+  // aca como manejamos el usuario con auth.currentUser cuando inicias sesion o cerras sesion no se actualiza el UI
+  // lo ideal seria englobar el layout en un contexto de auth (no bloqueando rutas, solo para obtener el user y que se recargue si se hace log in/out o se refresca el token)
   const fetchRecipes = async (search: string) => {
     setLoading(true);
     try {
@@ -75,6 +77,7 @@ function Home() {
           keyExtractor={(item) => item.idMeal}
           renderItem={({ item }) => (
             <RecipeCard
+              id={item.idMeal}
               name={item.strMeal}
               category={item.strCategory}
               area={item.strArea}

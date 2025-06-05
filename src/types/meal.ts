@@ -49,7 +49,7 @@ export interface Meal {
   strMeasure19: string | null;
   strMeasure20: string | null;
   strSource: string | null;
-  strImageSource: string | null;
+  strImageSource: string;
   strCreativeCommonsConfirmed: string | null;
   dateModified: string | null;
 }

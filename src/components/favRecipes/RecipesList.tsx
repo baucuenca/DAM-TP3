@@ -1,42 +1,44 @@
-import { getAllRecipes } from '@/src/services/recipesAPI';
+import { getFavorites } from '@/src/services/recipesAPI';
 import { Meal } from '@/src/types/meal';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import RecetaCard from './RecetaCard';
+import RecipeCard from '../RecipeCard';
 
 const RecipesList = () => {
   const [recipes, setRecipes] = useState<Meal[]>([]);
-
+  // aca hay que cambiar el endpoint y aparte filtrar por favs
   useEffect(() => {
     const fetchRecipes = async () => {
-      const data = await getAllRecipes();
+      const data = await getFavorites();
       setRecipes(data);
     };
 
     fetchRecipes();
   }, []);
+  // funcion para obtener ingredientes que podemos usar en el detalle de receta
+  // const getIngredientsArray = (meal: Meal): string[] => {
+  //   const ingredients: string[] = [];
 
-  const getIngredientsArray = (meal: Meal): string[] => {
-    const ingredients: string[] = [];
+  //   for (let i = 1; i <= 20; i++) {
+  //     const ingredient = meal[`strIngredient${i}` as keyof Meal];
+  //     if (ingredient && ingredient.trim()) {
+  //       ingredients.push(ingredient.trim());
+  //     }
+  //   }
 
-    for (let i = 1; i <= 20; i++) {
-      const ingredient = meal[`strIngredient${i}` as keyof Meal];
-      if (ingredient && ingredient.trim()) {
-        ingredients.push(ingredient.trim());
-      }
-    }
-
-    return ingredients;
-  };
+  //   return ingredients;
+  // };
 
   return (
     <View>
       {recipes.map((recipe) => (
-        <RecetaCard
+        <RecipeCard
           key={recipe.idMeal}
+          id={recipe.idMeal}
           name={recipe.strMeal}
-          imageUrl={recipe.strMealThumb}
-          ingredients={getIngredientsArray(recipe)}
+          image={recipe.strMealThumb}
+          category={recipe.strCategory}
+          area={recipe.strArea}
         />
       ))}
     </View>
