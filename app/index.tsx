@@ -14,6 +14,7 @@ import Menu from "../src/components/Menu/Menu";
 import MenuOption from "../src/components/Menu/MenuOption";
 import RecipeCard from "../src/components/RecipeCard";
 import { auth } from "../src/constants/firebaseConfig";
+import { useIsAuthenticated } from "../src/hooks/useIsAuthenticated";
 import { useTheme } from "../src/hooks/useTheme";
 
 type Meal = {
@@ -30,7 +31,7 @@ function Home() {
   const [recipes, setRecipes] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const user = auth.currentUser;
+  const isAuthenticated = useIsAuthenticated(); // Cambia esta línea
 
   // aca como manejamos el usuario con auth.currentUser cuando inicias sesion o cerras sesion no se actualiza el UI
   // lo ideal seria englobar el layout en un contexto de auth (no bloqueando rutas, solo para obtener el user y que se recargue si se hace log in/out o se refresca el token)
@@ -108,14 +109,14 @@ function Home() {
           icon="kitchen"
           onPress={() => router.push("/FavIngredients")}
         />
-        {!user && (
+        {!isAuthenticated && (
           <MenuOption
             label="Iniciar sesion"
             icon="login"
             onPress={() => router.push("/Login")}
           />
         )}
-        {user && (
+        {isAuthenticated && (
           <MenuOption
             label="Cerrar sesión"
             icon="logout"
