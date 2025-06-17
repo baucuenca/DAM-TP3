@@ -1,4 +1,4 @@
-import RecipesList from "@/src/components/FavRecipes/RecipesList";
+import RecipesList from "@/src/components/favRecipes/RecipesList";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 import React, { useContext } from "react";
@@ -17,7 +17,7 @@ const FavRecipes = () => {
   useProtectedRoute();
   const router = useRouter();
   const handleGoBack = () => {
-    router.back();
+    router.push('/');
   };
 
   const { theme: currentTheme } = useContext(ThemeContext);

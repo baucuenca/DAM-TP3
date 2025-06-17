@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 10,
+    marginTop:40,
   },
   overlay: {
     flex: 1,

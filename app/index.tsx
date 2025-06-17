@@ -53,6 +53,11 @@ function Home() {
     fetchRecipes(""); // Carga inicial
   }, []);
 
+  const cerrarSesion = async () => {
+    await signOut(auth);
+    router.push("/")
+  }
+
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.background }]}
@@ -120,7 +125,7 @@ function Home() {
           <MenuOption
             label="Cerrar sesión"
             icon="logout"
-            onPress={async () => await signOut(auth)}
+            onPress={cerrarSesion}
           />
         )}
       </Menu>
@@ -137,7 +142,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 24, // Espacio para la barra de estado
+    marginTop: 40, // Espacio para la barra de estado
     marginBottom: 20,
   },
   title: {
