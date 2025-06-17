@@ -1,35 +1,18 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { auth } from "../../constants/firebaseConfig";
 import { useTheme } from "../../hooks/useTheme";
-import { esFavIngredient, toggleFavIngredient } from "../../services/favoritosStorage";
 
 type Props = {
   id: string;
   name: string;
   description?: string | null;
+  isFav: boolean;
+  onToggleFav: (id: string) => void;
 };
 
-const IngredientCard = ({ id, name, description }: Props) => {
+const IngredientCard = ({ id, name, description, isFav, onToggleFav }: Props) => {
   const { theme } = useTheme();
-  const user = auth.currentUser?.uid;
-  const [isFav, setIsFav] = useState(false);
-
-  useEffect(() => {
-    const checkFav = async () => {
-      const fav = await esFavIngredient(user, id);
-      setIsFav(fav);
-    };
-    if (user) checkFav();
-  }, [user, id]);
-
-  const onToggleFav = () => {
-    if (user) {
-      toggleFavIngredient(user, id);
-      setIsFav(!isFav);
-    }
-  };
 
   return (
     <View style={[styles.card, { backgroundColor: theme.surface }]}>
@@ -41,7 +24,7 @@ const IngredientCard = ({ id, name, description }: Props) => {
           </Text>
         ) : null}
       </View>
-      <TouchableOpacity onPress={onToggleFav}>
+      <TouchableOpacity onPress={() => onToggleFav(id)}>
         <Ionicons name={isFav ? "heart" : "heart-outline"} size={24} color={theme.iconColor} />
       </TouchableOpacity>
     </View>

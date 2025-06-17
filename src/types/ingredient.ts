@@ -6,5 +6,5 @@ export interface Ingredient {
 }
 
 export interface IngredientsResponse {
-  ingredients: Ingredient[];
+  meals: Ingredient[];
 }
